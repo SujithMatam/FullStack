@@ -26,6 +26,8 @@ Use MERN Stack :
 &#x09;     - Node.js
 
 
+This is a 10 day plan but we will compromise to 5 days.
+
 Day 1 – Planning + Setup
 
 * Decide features (use above)
@@ -107,5 +109,4 @@ Day 1 – Planning + Setup
 * Fix bugs
 * Add loading states
 
-This is a 10 day plan but we will compromise to 5 days.
 
