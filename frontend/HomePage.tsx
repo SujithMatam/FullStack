@@ -106,9 +106,9 @@ const HomePage = () => {
         </div>
         
         {displayList.length === 0 && (
-          <div style={{background: 'white', padding: '40px', borderRadius: '10px', textAlign: 'center', marginTop: '20px'}}>
-            <h2 style={{color: '#ea580c'}}>No restaurants found.</h2>
-            <p>We couldn't find anything matching your search. Try a different location or cuisine!</p>
+          <div style={{background: 'rgba(31, 41, 55, 0.95)', border: '1px solid #374151', padding: '40px', borderRadius: '12px', textAlign: 'center', marginTop: '20px', boxShadow: '0 10px 25px rgba(0,0,0,0.6)'}}>
+            <h2 style={{color: '#f97316'}}>No restaurants found.</h2>
+            <p style={{color: '#d1d5db'}}>We couldn't find anything matching your search. Try a different location or cuisine!</p>
             <button className="btn-search" style={{marginTop: '15px'}} onClick={() => setDisplayList(initialRestaurants)}>View All Restaurants</button>
           </div>
         )}
@@ -117,7 +117,7 @@ const HomePage = () => {
       {/* 4. Contact Us Section */}
       <section className="contact-section">
         <h2>Get In Touch</h2>
-        <p style={{textAlign: 'center', color: '#6b7280'}}>Have a restaurant suggestion or facing an issue? Send us a message!</p>
+        <p style={{textAlign: 'center', color: '#9ca3af'}}>Have a restaurant suggestion or facing an issue? Send us a message!</p>
         <form className="contact-form" onSubmit={(e) => { e.preventDefault(); alert("Thank you! Your message has been sent."); }}>
           <input type="text" placeholder="Your Full Name" required />
           <input type="email" placeholder="Your Email Address" required />
@@ -130,13 +130,11 @@ const HomePage = () => {
       <footer className="footer">
         <div className="footer-content">
           
-          {/* Column 1: Brand & About */}
           <div className="footer-col">
-            <h2 className="logo" style={{color: '#ea580c', borderBottom: 'none', marginBottom: '15px', fontSize: '28px'}}>Know Your Food</h2>
+            <h2 className="logo" style={{color: '#f97316', borderBottom: 'none', marginBottom: '15px', fontSize: '28px'}}>Know Your Food</h2>
             <p>Your ultimate guide to discovering the best dining experiences. Read honest reviews, explore menus, and find your next favorite meal with us.</p>
           </div>
 
-          {/* Column 2: Quick Links */}
           <div className="footer-col">
             <h4>Quick Links</h4>
             <ul>
@@ -148,7 +146,6 @@ const HomePage = () => {
             </ul>
           </div>
 
-          {/* Column 3: Legal & Support */}
           <div className="footer-col">
             <h4>Support</h4>
             <ul>
@@ -160,7 +157,6 @@ const HomePage = () => {
             </ul>
           </div>
 
-          {/* Column 4: Contact & Newsletter */}
           <div className="footer-col">
             <h4>Stay Updated</h4>
             <p>Subscribe to our newsletter for the latest restaurant openings and exclusive offers!</p>
@@ -168,7 +164,7 @@ const HomePage = () => {
               <input type="email" placeholder="Email address" required />
               <button type="submit">Subscribe</button>
             </form>
-            <div style={{marginTop: '20px', color: '#9ca3af'}}>
+            <div style={{marginTop: '20px', color: '#6b7280'}}>
               <p>📍 Amrita School of Computing</p>
               <p>📧 support@knowyourfood.com</p>
             </div>
@@ -176,7 +172,6 @@ const HomePage = () => {
 
         </div>
 
-        {/* Footer Bottom Bar */}
         <div className="footer-bottom">
           <p>© 2026 Know Your Food Blog. All rights reserved.</p>
           <p>Designed and developed for B.Tech CSE.</p>
