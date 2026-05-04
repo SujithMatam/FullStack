@@ -1,0 +1,89 @@
+/* General Styling */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Header/Navbar */
+.navbar {
+  background-color: #fff;
+  padding: 15px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #eee;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff5a00;
+}
+
+.nav-links button {
+  margin-left: 15px;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid #ff5a00;
+  font-weight: bold;
+}
+
+.btn-login { background: white; color: #ff5a00; }
+.btn-register { background: #ff5a00; color: white; }
+
+/* Hero Section */
+.hero {
+  background-color: #fff5f0;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.search-box {
+  margin-top: 20px;
+}
+
+.search-box input {
+  padding: 12px;
+  width: 250px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.btn-search {
+  padding: 12px 25px;
+  background-color: #ff5a00;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Restaurant Grid */
+.container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.restaurant-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.restaurant-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.restaurant-card h3 { margin: 10px 0; }
+.rating { color: #ffa500; font-weight: bold; }
+.details { color: #666; font-size: 14px; }
