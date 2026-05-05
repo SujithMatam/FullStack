@@ -18,6 +18,97 @@ Pranav - 2,3
 Vivek - 4,5
 Rishi-6,7,8
 
+--------------------------------------------------------------------------------------
+
+🔁 Push to GitHub
+git add .
+git commit -m "Initial Vite MERN setup"
+git push origin main
+
+--------------------------------------------------------------------------------------
+
+👥 What Your Teammates Do
+git clone <repo-link>
+cd FullStack
+
+cd client
+npm install
+npm run dev
+
+cd ../server
+npm install
+npm run dev
+
+--------------------------------------------------------------------------------------
+
+⚡ Important (Don’t Skip)
+Frontend runs on → 5173
+Backend runs on → 5000
+API calls → http://localhost:5000
+
+----------------------------------------------------------------------------------------
+
+Folder Structure:
+
+FullStack/
+│
+├── client/                # React frontend
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Navbar.js
+│   │   │   ├── PostCard.js
+│   │   │   └── RestaurantCard.js
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── Home.js
+│   │   │   ├── BlogList.js
+│   │   │   ├── BlogDetails.js
+│   │   │   ├── RestaurantList.js
+│   │   │   ├── Login.js
+│   │   │   ├── Register.js
+│   │   │   └── AddPost.js
+│   │   │
+│   │   ├── services/      # API calls
+│   │   │   └── api.js
+│   │   │
+│   │   ├── App.js
+│   │   └── index.js
+│   │
+│   ├── package.json
+│   └── .gitignore
+│
+├── server/                # Node + Express backend
+│   ├── models/
+│   │   ├── User.js
+│   │   ├── Post.js
+│   │   └── Restaurant.js
+│   │
+│   ├── routes/
+│   │   ├── userRoutes.js
+│   │   ├── postRoutes.js
+│   │   └── restaurantRoutes.js
+│   │
+│   ├── controllers/
+│   │   ├── userController.js
+│   │   ├── postController.js
+│   │   └── restaurantController.js
+│   │
+│   ├── config/
+│   │   └── db.js
+│   │
+│   ├── middleware/
+│   │   └── authMiddleware.js
+│   │
+│   ├── server.js
+│   ├── package.json
+│   └── .env
+│
+├── README.md
+└── .gitignore
+
+-------------------------------------------------------------------------------------
+
 Use MERN Stack :
 
 &#x20;     - MongoDB
@@ -25,6 +116,7 @@ Use MERN Stack :
 &#x09;     - React
 &#x09;     - Node.js
 
+--------------------------------------------------------------------------------------
 
 This is a 10 day plan but we will compromise to 5 days.
 
