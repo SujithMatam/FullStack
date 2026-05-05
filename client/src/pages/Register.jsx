@@ -1,5 +1,8 @@
 import { useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import { registerUser } from '../services/api';
 import './Auth.css';
 
 export default function Register() {
@@ -62,21 +65,30 @@ export default function Register() {
       return;
     }
 
-    // Simulate API call — replace with actual JWT registration later
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await registerUser({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password
+      });
 
       setMessage({ type: 'success', text: 'Account created successfully! Redirecting...' });
       setTimeout(() => navigate('/login'), 1500);
-    } catch {
-      setMessage({ type: 'error', text: 'Registration failed. Please try again.' });
+    } catch (err) {
+      setMessage({ 
+        type: 'error', 
+        text: err.response?.data?.message || 'Registration failed. Please try again.' 
+      });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="auth-page">
+    <>
+      <Navbar />
+      <div className="auth-page">
       {/* Floating particles */}
       <div className="auth-particles">
         <span /><span /><span /><span />
@@ -262,6 +274,8 @@ export default function Register() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+      <Footer />
+    </>
   );
 }

@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import { AuthContext } from '../context/AuthContext';
 import './Auth.css';
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -20,28 +24,30 @@ export default function Login() {
     setLoading(true);
     setMessage({ type: '', text: '' });
 
-    // Simulate API call — replace with actual JWT auth later
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // Placeholder validation
       if (!formData.email || !formData.password) {
         setMessage({ type: 'error', text: 'Please fill in all fields.' });
         setLoading(false);
         return;
       }
 
+      await login(formData.email, formData.password);
       setMessage({ type: 'success', text: 'Welcome back! Redirecting...' });
       setTimeout(() => navigate('/'), 1200);
-    } catch {
-      setMessage({ type: 'error', text: 'Login failed. Please try again.' });
+    } catch (err) {
+      setMessage({ 
+        type: 'error', 
+        text: err.response?.data?.message || 'Login failed. Please try again.' 
+      });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="auth-page">
+    <>
+      <Navbar />
+      <div className="auth-page">
       {/* Floating particles */}
       <div className="auth-particles">
         <span /><span /><span /><span />
@@ -160,6 +166,8 @@ export default function Login() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+      <Footer />
+    </>
   );
 }

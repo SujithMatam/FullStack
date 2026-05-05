@@ -1,0 +1,167 @@
+/* ===== Navbar ===== */
+.navbar {
+  background-color: rgba(17, 24, 39, 0.98);
+  padding: 0 48px;
+  height: 68px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(249, 115, 22, 0.1);
+}
+
+/* Logo */
+.navbar .logo {
+  font-size: 24px;
+  font-weight: 800;
+  color: #f97316;
+  letter-spacing: -0.5px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+  flex-shrink: 0;
+  margin-left: 24px;
+}
+
+.navbar .logo:hover {
+  color: #fdba74;
+}
+
+/* Navigation Menu */
+.nav-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-link {
+  color: #f3f4f6;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+  background: #f97316;;
+}
+
+
+
+/* Auth Buttons */
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  margin-right: 24px;
+}
+
+.nav-auth .btn-login {
+  padding: 9px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  background: transparent;
+  color: #f97316;
+  border: 2px solid #f97316;
+}
+
+.nav-auth .btn-login:hover {
+  background: rgba(249, 115, 22, 0.1);
+  transform: translateY(-2px);
+}
+
+.nav-auth .btn-register {
+  padding: 9px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  background: #f97316;
+  color: #111827;
+  border: 2px solid #f97316;
+}
+
+.nav-auth .btn-register:hover {
+  background: #fdba74;
+  border-color: #fdba74;
+  transform: translateY(-2px);
+}
+
+.nav-auth .btn-username {
+  padding: 9px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  background: transparent;
+  color: #f3f4f6;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-auth .btn-username:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav-auth .btn-logout {
+  padding: 9px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: transparent;
+  color: #ef4444;
+  border: 1px solid #ef4444;
+}
+
+.nav-auth .btn-logout:hover {
+  background: #ef4444;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 20px;
+    height: 60px;
+  }
+
+  .nav-menu {
+    display: none;
+  }
+
+  .navbar .logo {
+    font-size: 20px;
+  }
+
+  .nav-auth .btn-login,
+  .nav-auth .btn-register {
+    padding: 7px 16px;
+    font-size: 13px;
+  }
+}

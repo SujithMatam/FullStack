@@ -1,0 +1,140 @@
+/* ===== Footer ===== */
+.footer {
+  background-color: #030712;
+  color: #d1d5db;
+  padding: 60px 20px 20px;
+  margin-top: 80px;
+  border-top: 1px solid #1f2937;
+  text-align: left;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+}
+
+/* Footer Logo */
+.footer-logo {
+  font-size: 28px;
+  font-weight: 800;
+  color: #f97316;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 15px;
+  transition: color 0.3s ease;
+}
+
+.footer-logo:hover {
+  color: #fdba74;
+}
+
+/* Footer Columns */
+.footer-col h4 {
+  color: #ffffff;
+  font-size: 20px;
+  margin: 0 0 25px 0;
+  border-bottom: 3px solid #f97316;
+  display: inline-block;
+  padding-bottom: 8px;
+}
+
+.footer-col p {
+  line-height: 1.6;
+  margin: 0 0 15px 0;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col ul li {
+  margin-bottom: 15px;
+}
+
+.footer-col a {
+  color: #9ca3af;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.footer-col a:hover {
+  color: #f97316;
+  transform: translateX(5px);
+  display: inline-block;
+}
+
+/* Newsletter */
+.newsletter-form {
+  display: flex;
+  margin-top: 20px;
+}
+
+.newsletter-form input {
+  border-radius: 6px 0 0 6px;
+  width: 100%;
+  border: none;
+  padding: 12px;
+  background-color: #374151;
+  color: #f3f4f6;
+  font-size: 14px;
+  outline: none;
+}
+
+.newsletter-form input:focus {
+  outline: 2px solid #f97316;
+  outline-offset: -2px;
+}
+
+.newsletter-form button {
+  background: #f97316;
+  color: #111827;
+  border: none;
+  border-radius: 0 6px 6px 0;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  white-space: nowrap;
+  transition: background 0.3s ease;
+}
+
+.newsletter-form button:hover {
+  background: #fdba74;
+}
+
+/* Contact Info */
+.footer-contact-info {
+  margin-top: 20px;
+  color: #6b7280;
+}
+
+.footer-contact-info p {
+  margin: 0 0 6px 0;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  max-width: 1200px;
+  margin: 50px auto 0;
+  padding-top: 25px;
+  border-top: 1px solid #1f2937;
+  text-align: center;
+  color: #6b7280;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .footer {
+    padding: 40px 20px 20px;
+    margin-top: 40px;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}

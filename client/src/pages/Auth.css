@@ -589,3 +589,9 @@
     gap: 20px;
   }
 }
+
+/* ===== Remove white gap between auth content and footer ===== */
+.auth-page + .footer,
+.auth-page ~ .footer {
+  margin-top: 0;
+}
