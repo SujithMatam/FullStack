@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { AuthContext } from '../context/AuthContext';
@@ -81,6 +81,31 @@ export default function Profile() {
                   <p>You haven't searched for any restaurants yet.</p>
                   <button className="btn-explore" onClick={() => navigate('/')}>
                     Explore Restaurants
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="profile-section">
+              <h2>Your Added Blogs</h2>
+              {profileData?.blogs && profileData.blogs.length > 0 ? (
+                <div className="search-history-list">
+                  {profileData.blogs.map((blog) => (
+                    <Link to={`/blogs/${blog._id}`} key={blog._id} className="search-history-item" style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <div className="search-icon">📝</div>
+                      <div className="search-details">
+                        <span className="search-query">{blog.title}</span>
+                        <span className="search-date">
+                          {new Date(blog.createdAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <div className="empty-state">
+                  <p>You haven't added any blogs yet.</p>
+                  <button className="btn-explore" onClick={() => navigate('/blogs/create')}>
+                    Create a Blog
                   </button>
                 </div>
               )}

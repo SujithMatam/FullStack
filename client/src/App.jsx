@@ -6,6 +6,8 @@ import Profile from "./pages/Profile";
 import BlogListPage from "./pages/BlogListPage";
 import BlogDetailsPage from "./pages/BlogDetailsPage";
 import CreateBlogPage from "./pages/CreateBlogPage";
+import RestaurantListPage from "./pages/RestaurantListPage";
+import RestaurantDetailsPage from "./pages/RestaurantDetailsPage";
 import { AuthProvider } from "./context/AuthContext";
 
 function App() {
@@ -20,6 +22,8 @@ function App() {
           <Route path="/blogs" element={<BlogListPage />} />
           <Route path="/blogs/create" element={<CreateBlogPage />} />
           <Route path="/blogs/:id" element={<BlogDetailsPage />} />
+          <Route path="/restaurants" element={<RestaurantListPage />} />
+          <Route path="/restaurants/:id" element={<RestaurantDetailsPage />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

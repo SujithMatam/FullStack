@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Blog = require('../models/Blog');
 const jwt = require('jsonwebtoken');
 
 // Generate JWT
@@ -77,12 +78,15 @@ const getUserProfile = async (req, res) => {
     const user = await User.findById(req.user._id);
 
     if (user) {
+      const userBlogs = await Blog.find({ authorId: req.user._id }).sort({ createdAt: -1 });
+
       res.json({
         _id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
         searchHistory: user.searchHistory,
+        blogs: userBlogs,
       });
     } else {
       res.status(404).json({ message: 'User not found' });

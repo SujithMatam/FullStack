@@ -50,8 +50,8 @@ const BlogDetailsPage = () => {
             <div className="container">
               <h1 className="blog-hero-title">{blog.title}</h1>
               <div className="blog-meta">
-                <span className="blog-author">By {blog.author}</span>
                 <span className="separator">•</span>
+                <span className="blog-author">By {blog.authorName}</span>
                 <span className="blog-date">{blog.date}</span>
                 {blog.restaurant && (
                   <>

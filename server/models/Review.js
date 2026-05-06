@@ -5,7 +5,10 @@ const reviewSchema = new mongoose.Schema(
     blogId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Blog',
-      required: true,
+    },
+    restaurantId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Restaurant',
     },
     rating: {
       type: Number,

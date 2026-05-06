@@ -1,7 +1,7 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { createBlog, uploadImage } from '../services/api';
+import { createBlog, uploadImage, getRestaurants } from '../services/api';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import './CreateBlogPage.css';
@@ -21,6 +21,19 @@ const CreateBlogPage = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [restaurants, setRestaurants] = useState([]);
+
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      try {
+        const data = await getRestaurants();
+        setRestaurants(data);
+      } catch (err) {
+        console.error('Failed to fetch restaurants', err);
+      }
+    };
+    fetchRestaurants();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -155,13 +168,25 @@ const CreateBlogPage = () => {
 
             <div className="form-group">
               <label>Restaurant Tag (Optional)</label>
-              <input
-                type="text"
+              <select
                 name="restaurant"
                 value={formData.restaurant}
                 onChange={handleChange}
-                placeholder="e.g., Joe's Burgers"
-              />
+                style={{
+                  backgroundColor: '#374151',
+                  color: '#f3f4f6',
+                  padding: '12px 15px',
+                  border: '2px solid #4b5563',
+                  borderRadius: '8px',
+                  fontSize: '16px',
+                  width: '100%'
+                }}
+              >
+                <option value="">Select a restaurant...</option>
+                {restaurants.map((res) => (
+                  <option key={res._id} value={res.name}>{res.name}</option>
+                ))}
+              </select>
             </div>
 
             <div className="form-group">

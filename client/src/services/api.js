@@ -80,4 +80,30 @@ export const addReview = async (blogId, reviewData) => {
   return response.data;
 };
 
+// --- Restaurants ---
+export const getRestaurants = async () => {
+  const response = await api.get('/restaurants');
+  return response.data;
+};
+
+export const getRestaurantById = async (id) => {
+  const response = await api.get(`/restaurants/${id}`);
+  return response.data;
+};
+
+export const createRestaurant = async (restaurantData) => {
+  const response = await api.post('/restaurants', restaurantData);
+  return response.data;
+};
+
+export const getRestaurantReviews = async (restaurantId) => {
+  const response = await api.get(`/restaurants/${restaurantId}/reviews`);
+  return response.data;
+};
+
+export const addRestaurantReview = async (restaurantId, reviewData) => {
+  const response = await api.post(`/restaurants/${restaurantId}/reviews`, reviewData);
+  return response.data;
+};
+
 export default api;

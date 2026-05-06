@@ -4,6 +4,7 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const blogRoutes = require("./routes/blogRoutes");
+const restaurantRoutes = require("./routes/restaurantRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
 const path = require("path");
 
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/users", userRoutes);
 app.use("/api/blogs", blogRoutes);
+app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/upload", uploadRoutes);
 
 app.use("/public", express.static(path.join(__dirname, "/public")));

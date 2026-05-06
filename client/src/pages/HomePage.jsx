@@ -1,8 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { AuthContext } from '../context/AuthContext';
-import { saveSearchHistory } from '../services/api';
+import { saveSearchHistory, getRestaurants } from '../services/api';
 import '../index.css';
 
 const initialRestaurants = [
@@ -46,14 +47,36 @@ const initialRestaurants = [
 
 const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [allRestaurants, setAllRestaurants] = useState([]);
   const [displayList, setDisplayList] = useState(initialRestaurants);
+  const [isSearching, setIsSearching] = useState(false);
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      try {
+        const data = await getRestaurants();
+        setAllRestaurants(data);
+      } catch (error) {
+        console.error('Failed to fetch restaurants:', error);
+      }
+    };
+    fetchRestaurants();
+  }, []);
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    const filtered = initialRestaurants.filter(res => 
+    if (!searchTerm.trim()) {
+      setDisplayList(initialRestaurants);
+      setIsSearching(false);
+      return;
+    }
+    
+    setIsSearching(true);
+    const filtered = allRestaurants.filter(res => 
       res.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      res.loc.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      res.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
       res.food.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setDisplayList(filtered);
@@ -89,12 +112,54 @@ const HomePage = () => {
         </form>
       </header>
 
+      {/* Search Results Section */}
+      {isSearching && (
+        <main className="container" style={{ marginTop: '20px' }}>
+          <h2 className="section-title" style={{ borderBottomColor: '#3b82f6' }}>Search Results</h2>
+          
+          <div className="restaurant-list">
+            {displayList.length === 0 ? (
+              <div style={{background: 'rgba(31, 41, 55, 0.95)', border: '1px solid #374151', padding: '40px', borderRadius: '12px', textAlign: 'center', boxShadow: '0 10px 25px rgba(0,0,0,0.6)'}}>
+                <h2 style={{color: '#f97316'}}>Not available.</h2>
+                <p style={{color: '#d1d5db'}}>We couldn't find anything matching your search. Try a different location or cuisine!</p>
+                <button className="btn-search" style={{marginTop: '15px'}} onClick={() => {setDisplayList(initialRestaurants); setSearchTerm(''); setIsSearching(false);}}>Clear Search</button>
+              </div>
+            ) : (
+              displayList.map((res) => (
+                <div key={res._id || res.id} className="restaurant-list-card">
+                  <img src={res.images && res.images.length > 0 ? res.images[0] : res.image} alt={res.name} className="card-image" />
+                  <div className="card-info">
+                    <h3>{res.name}</h3>
+                    <span className="rating">★ {res.rating || 0} out of 5</span>
+                    <div className="tags">📍 {res.location || res.loc} &nbsp; | &nbsp; 🍽️ {res.food}</div>
+                    <p className="description">{res.description}</p>
+                    <button 
+                      className="btn-register" 
+                      style={{width: '220px', padding: '12px'}}
+                      onClick={() => {
+                        if (res._id) {
+                          navigate(`/restaurants/${res._id}`);
+                        } else {
+                          alert(`Loading full menu and reviews for ${res.name}...`);
+                        }
+                      }}
+                    >
+                      Read Full Reviews
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </main>
+      )}
+
       {/* 3. Main Content - Restaurant List */}
       <main className="container" id="restaurants">
         <h2 className="section-title">Top Rated Restaurants</h2>
         
         <div className="restaurant-list">
-          {displayList.map((res) => (
+          {initialRestaurants.map((res) => (
             <div key={res.id} className="restaurant-list-card">
               <img src={res.image} alt={res.name} className="card-image" />
               <div className="card-info">
@@ -113,14 +178,6 @@ const HomePage = () => {
             </div>
           ))}
         </div>
-        
-        {displayList.length === 0 && (
-          <div style={{background: 'rgba(31, 41, 55, 0.95)', border: '1px solid #374151', padding: '40px', borderRadius: '12px', textAlign: 'center', marginTop: '20px', boxShadow: '0 10px 25px rgba(0,0,0,0.6)'}}>
-            <h2 style={{color: '#f97316'}}>No restaurants found.</h2>
-            <p style={{color: '#d1d5db'}}>We couldn't find anything matching your search. Try a different location or cuisine!</p>
-            <button className="btn-search" style={{marginTop: '15px'}} onClick={() => setDisplayList(initialRestaurants)}>View All Restaurants</button>
-          </div>
-        )}
       </main>
 
       {/* 4. Contact Us Section */}
