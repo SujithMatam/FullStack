@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import BlogListPage from "./pages/BlogListPage";
 import BlogDetailsPage from "./pages/BlogDetailsPage";
+import CreateBlogPage from "./pages/CreateBlogPage";
 import { AuthProvider } from "./context/AuthContext";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/blogs" element={<BlogListPage />} />
+          <Route path="/blogs/create" element={<CreateBlogPage />} />
           <Route path="/blogs/:id" element={<BlogDetailsPage />} />
         </Routes>
       </BrowserRouter>

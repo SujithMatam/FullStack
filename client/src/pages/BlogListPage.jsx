@@ -2,16 +2,23 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BlogCard from '../components/BlogCard';
-import { mockBlogs } from '../mockData';
+import { getBlogs } from '../services/api';
+import { Link } from 'react-router-dom';
 import './BlogListPage.css';
 
 const BlogListPage = () => {
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    // In the future, this will be an API call to the backend
-    // For now, we use the mock data
-    setBlogs(mockBlogs);
+    const fetchBlogs = async () => {
+      try {
+        const data = await getBlogs();
+        setBlogs(data);
+      } catch (error) {
+        console.error("Failed to fetch blogs", error);
+      }
+    };
+    fetchBlogs();
   }, []);
 
   return (
@@ -27,8 +34,16 @@ const BlogListPage = () => {
 
           <div className="blog-grid">
             {blogs.map(blog => (
-              <BlogCard key={blog.id} blog={blog} />
+              <BlogCard key={blog._id || blog.id} blog={{...blog, id: blog._id || blog.id}} />
             ))}
+            
+            {/* Create Blog Card */}
+            <Link to="/blogs/create" className="create-blog-card" style={{ textDecoration: 'none' }}>
+              <div className="create-blog-card-inner">
+                <span className="plus-icon">+</span>
+                <h3>Create a New Blog Post</h3>
+              </div>
+            </Link>
           </div>
         </div>
       </main>

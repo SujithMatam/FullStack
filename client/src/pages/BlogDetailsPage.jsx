@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ReviewSection from '../components/ReviewSection';
-import { mockBlogs, mockReviews } from '../mockData';
+import { getBlogById, getReviews } from '../services/api';
 import './BlogDetailsPage.css';
 
 const BlogDetailsPage = () => {
@@ -12,15 +12,18 @@ const BlogDetailsPage = () => {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    // In a real app, this would be an API call fetching blog details and its reviews by ID
-    const foundBlog = mockBlogs.find(b => b.id === id);
-    setBlog(foundBlog);
-    
-    if (foundBlog && mockReviews[id]) {
-      setReviews(mockReviews[id]);
-    } else {
-      setReviews([]);
-    }
+    const fetchBlogAndReviews = async () => {
+      try {
+        const blogData = await getBlogById(id);
+        setBlog(blogData);
+        
+        const reviewsData = await getReviews(id);
+        setReviews(reviewsData);
+      } catch (error) {
+        console.error("Failed to fetch blog details", error);
+      }
+    };
+    fetchBlogAndReviews();
   }, [id]);
 
   if (!blog) {
@@ -73,7 +76,7 @@ const BlogDetailsPage = () => {
           </div>
 
           {/* Review Section */}
-          <ReviewSection initialReviews={reviews} />
+          <ReviewSection blogId={id} initialReviews={reviews} />
         </div>
       </main>
 

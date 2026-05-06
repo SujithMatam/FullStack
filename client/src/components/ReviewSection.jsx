@@ -1,28 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
+import { addReview } from '../services/api';
 import './ReviewSection.css';
 
-const ReviewSection = ({ initialReviews = [] }) => {
+const ReviewSection = ({ blogId, initialReviews = [] }) => {
+  const { user } = useContext(AuthContext);
   const [reviews, setReviews] = useState(initialReviews);
-  const [newReview, setNewReview] = useState({ rating: 0, comment: '', user: 'Guest User' });
+  const [newReview, setNewReview] = useState({ rating: 0, comment: '' });
   const [hoverRating, setHoverRating] = useState(0);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleRatingSubmit = (e) => {
+  // Sync state if initialReviews prop changes (e.g. fetched from API)
+  useEffect(() => {
+    setReviews(initialReviews);
+  }, [initialReviews]);
+
+  const handleRatingSubmit = async (e) => {
     e.preventDefault();
     if (newReview.rating === 0 || newReview.comment.trim() === '') {
-      alert("Please provide a rating and a comment.");
+      setError("Please provide a rating and a comment.");
       return;
     }
 
-    const reviewToAdd = {
-      id: Date.now().toString(),
-      user: newReview.user,
-      rating: newReview.rating,
-      comment: newReview.comment,
-      date: new Date().toISOString().split('T')[0]
-    };
-
-    setReviews([reviewToAdd, ...reviews]);
-    setNewReview({ rating: 0, comment: '', user: 'Guest User' });
+    try {
+      setLoading(true);
+      setError('');
+      
+      const addedReview = await addReview(blogId, newReview);
+      
+      setReviews([addedReview, ...reviews]);
+      setNewReview({ rating: 0, comment: '' });
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to post review');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const renderStars = (rating, interactive = false) => {
@@ -49,19 +63,34 @@ const ReviewSection = ({ initialReviews = [] }) => {
       
       <div className="review-form-container">
         <h4>Leave a Review</h4>
-        <form className="review-form" onSubmit={handleRatingSubmit}>
-          <div className="rating-input">
-            <label>Rating:</label>
-            {renderStars(newReview.rating, true)}
-          </div>
-          <textarea
-            placeholder="Share your thoughts about this post or restaurant..."
-            value={newReview.comment}
-            onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
-            rows="4"
-          ></textarea>
-          <button type="submit" className="btn-submit-review">Post Review</button>
-        </form>
+        
+        {!user ? (
+           <div className="auth-prompt" style={{ textAlign: 'left' }}>
+             <p>You must be logged in to post a review.</p>
+             <div className="auth-links" style={{ justifyContent: 'flex-start' }}>
+               <Link to="/login" className="btn-login-outline">Log In</Link>
+               <Link to="/register" className="btn-register-filled">Register</Link>
+             </div>
+           </div>
+        ) : (
+          <form className="review-form" onSubmit={handleRatingSubmit}>
+            {error && <div className="error-message" style={{marginBottom: '10px'}}>{error}</div>}
+            <div className="rating-input">
+              <label>Rating:</label>
+              {renderStars(newReview.rating, true)}
+            </div>
+            <textarea
+              placeholder="Share your thoughts about this post or restaurant..."
+              value={newReview.comment}
+              onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
+              rows="4"
+              disabled={loading}
+            ></textarea>
+            <button type="submit" className="btn-submit-review" disabled={loading}>
+              {loading ? 'Posting...' : 'Post Review'}
+            </button>
+          </form>
+        )}
       </div>
 
       <div className="reviews-list">
@@ -69,10 +98,12 @@ const ReviewSection = ({ initialReviews = [] }) => {
           <p className="no-reviews">No reviews yet. Be the first to comment!</p>
         ) : (
           reviews.map((review) => (
-            <div key={review.id} className="review-card">
+            <div key={review._id || review.id} className="review-card">
               <div className="review-header">
-                <span className="review-author">{review.user}</span>
-                <span className="review-date">{review.date}</span>
+                <span className="review-author">{review.userName || review.user}</span>
+                <span className="review-date">
+                  {review.createdAt ? new Date(review.createdAt).toLocaleDateString() : review.date}
+                </span>
               </div>
               <div className="review-rating">
                 {renderStars(review.rating)}

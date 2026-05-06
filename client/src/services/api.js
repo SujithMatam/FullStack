@@ -40,4 +40,44 @@ export const saveSearchHistory = async (query) => {
   return response.data;
 };
 
+// --- Uploads ---
+export const uploadImage = async (file) => {
+  const formData = new FormData();
+  formData.append('image', file);
+  const response = await api.post('/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  // Return full URL since it's served from the backend
+  return `http://localhost:5000${response.data}`;
+};
+
+// --- Blogs ---
+export const getBlogs = async () => {
+  const response = await api.get('/blogs');
+  return response.data;
+};
+
+export const getBlogById = async (id) => {
+  const response = await api.get(`/blogs/${id}`);
+  return response.data;
+};
+
+export const createBlog = async (blogData) => {
+  const response = await api.post('/blogs', blogData);
+  return response.data;
+};
+
+// --- Reviews ---
+export const getReviews = async (blogId) => {
+  const response = await api.get(`/blogs/${blogId}/reviews`);
+  return response.data;
+};
+
+export const addReview = async (blogId, reviewData) => {
+  const response = await api.post(`/blogs/${blogId}/reviews`, reviewData);
+  return response.data;
+};
+
 export default api;

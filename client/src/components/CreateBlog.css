@@ -1,0 +1,138 @@
+.create-blog-container {
+  background: rgba(31, 41, 55, 0.8);
+  padding: 40px;
+  border-radius: 12px;
+  border: 1px solid #4b5563;
+  margin-top: 60px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.create-blog-container h3 {
+  color: #f97316;
+  font-size: 2rem;
+  margin-top: 0;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.auth-prompt {
+  text-align: center;
+}
+
+.auth-prompt p {
+  color: #d1d5db;
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+}
+
+.auth-links {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.btn-login-outline {
+  padding: 10px 20px;
+  border: 2px solid #f97316;
+  color: #f97316;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-login-outline:hover {
+  background: rgba(249, 115, 22, 0.1);
+  transform: translateY(-2px);
+}
+
+.btn-register-filled {
+  padding: 10px 20px;
+  background: #f97316;
+  color: #111827;
+  border: 2px solid #f97316;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-register-filled:hover {
+  background: #fdba74;
+  border-color: #fdba74;
+  transform: translateY(-2px);
+}
+
+.create-blog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  color: #d1d5db;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea {
+  background-color: #1f2937;
+  color: #f3f4f6;
+  padding: 15px;
+  border: 1px solid #4b5563;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #f97316;
+}
+
+.btn-submit-blog {
+  padding: 15px;
+  background-color: #f97316;
+  color: #111827;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 10px;
+}
+
+.btn-submit-blog:hover:not(:disabled) {
+  background-color: #fdba74;
+  transform: translateY(-2px);
+}
+
+.btn-submit-blog:disabled {
+  background-color: #4b5563;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.error-message {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ef4444;
+  margin-bottom: 20px;
+  text-align: center;
+}
