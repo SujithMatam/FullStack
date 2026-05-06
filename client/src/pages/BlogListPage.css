@@ -1,0 +1,33 @@
+.blog-list-main {
+  padding: 80px 0;
+  min-height: calc(100vh - 200px); /* Adjust based on navbar/footer height */
+}
+
+.blog-list-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.blog-list-subtitle {
+  color: #d1d5db;
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 15px auto 0;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+/* Ensure responsiveness */
+@media (max-width: 768px) {
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .blog-list-main {
+    padding: 50px 0;
+  }
+}

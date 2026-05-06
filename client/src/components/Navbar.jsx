@@ -29,6 +29,14 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
+          <Link
+            to="/blogs"
+            className={`nav-link ${location.pathname.startsWith('/blogs') ? 'active' : ''}`}
+          >
+            Blogs
+          </Link>
+        </li>
+        <li>
           <a href="/#restaurants" className="nav-link">
             Restaurants
           </a>

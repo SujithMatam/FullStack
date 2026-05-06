@@ -1,0 +1,154 @@
+.review-section {
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 2px solid #374151;
+}
+
+.review-title {
+  color: #f97316;
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+/* Form Styles */
+.review-form-container {
+  background: rgba(31, 41, 55, 0.6);
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #4b5563;
+  margin-bottom: 40px;
+  backdrop-filter: blur(8px);
+}
+
+.review-form-container h4 {
+  color: #f3f4f6;
+  font-size: 1.3rem;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.rating-input {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.rating-input label {
+  color: #d1d5db;
+  font-weight: 600;
+}
+
+.stars-container {
+  display: flex;
+  gap: 5px;
+}
+
+.star {
+  font-size: 1.5rem;
+  color: #4b5563;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.star.filled {
+  color: #fbbf24;
+}
+
+.star.interactive {
+  cursor: pointer;
+}
+
+.star.interactive:hover {
+  transform: scale(1.2);
+}
+
+.review-form textarea {
+  background-color: #1f2937;
+  color: #f3f4f6;
+  padding: 15px;
+  border: 1px solid #4b5563;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+
+.review-form textarea:focus {
+  outline: none;
+  border-color: #f97316;
+}
+
+.btn-submit-review {
+  align-self: flex-start;
+  padding: 12px 24px;
+  background-color: #f97316;
+  color: #111827;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-submit-review:hover {
+  background-color: #fdba74;
+  transform: translateY(-2px);
+}
+
+/* Reviews List Styles */
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.no-reviews {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.review-card {
+  background: rgba(17, 24, 39, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+  border-left: 4px solid #f97316;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.review-author {
+  color: #f3f4f6;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.review-date {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.review-rating {
+  margin-bottom: 15px;
+}
+
+.review-rating .star {
+  font-size: 1.1rem;
+}
+
+.review-comment {
+  color: #d1d5db;
+  line-height: 1.6;
+  margin: 0;
+}

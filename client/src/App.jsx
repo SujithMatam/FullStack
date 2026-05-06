@@ -3,6 +3,8 @@ import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
+import BlogListPage from "./pages/BlogListPage";
+import BlogDetailsPage from "./pages/BlogDetailsPage";
 import { AuthProvider } from "./context/AuthContext";
 
 function App() {
@@ -14,6 +16,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/blogs" element={<BlogListPage />} />
+          <Route path="/blogs/:id" element={<BlogDetailsPage />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
