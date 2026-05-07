@@ -106,4 +106,10 @@ export const addRestaurantReview = async (restaurantId, reviewData) => {
   return response.data;
 };
 
+// --- Contact ---
+export const submitContact = async (contactData) => {
+  const response = await api.post('/contacts', contactData);
+  return response.data;
+};
+
 export default api;

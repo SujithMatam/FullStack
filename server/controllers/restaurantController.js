@@ -34,7 +34,7 @@ const getRestaurantById = async (req, res) => {
 // @access  Private (or Public based on requirements, assuming Private)
 const createRestaurant = async (req, res) => {
   try {
-    const { name, description, location, googleMapLink, food, images } = req.body;
+    const { name, description, location, googleMapLink, food, images, rating } = req.body;
 
     const restaurant = new Restaurant({
       name,
@@ -43,7 +43,7 @@ const createRestaurant = async (req, res) => {
       googleMapLink,
       food,
       images,
-      rating: 0,
+      rating: rating || 0,
     });
 
     const createdRestaurant = await restaurant.save();

@@ -45,9 +45,12 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          <a href="/#contact" className="nav-link">
+          <Link
+            to="/contact"
+            className={`nav-link ${location.pathname === '/contact' ? 'active' : ''}`}
+          >
             Contact
-          </a>
+          </Link>
         </li>
       </ul>
 

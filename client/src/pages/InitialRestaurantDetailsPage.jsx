@@ -54,7 +54,7 @@ const InitialRestaurantDetailsPage = () => {
           <Link to="/" className="back-link">← Back to Home</Link>
           
           <div className="blog-body">
-            {restaurant.description.split('\n').map((paragraph, index) => (
+            {restaurant.description?.split('\n').map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
             ))}
           </div>

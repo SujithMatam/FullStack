@@ -6,6 +6,7 @@ const userRoutes = require("./routes/userRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const restaurantRoutes = require("./routes/restaurantRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
+const contactRoutes = require("./routes/contactRoutes");
 const path = require("path");
 
 // Connect to database
@@ -24,6 +25,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/contacts", contactRoutes);
 
 app.use("/public", express.static(path.join(__dirname, "/public")));
 

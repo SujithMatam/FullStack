@@ -20,6 +20,7 @@ const RestaurantListPage = () => {
     location: '',
     googleMapLink: '',
     food: '',
+    rating: 0,
   });
   const [imageFiles, setImageFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -97,7 +98,7 @@ const RestaurantListPage = () => {
       });
 
       // Clear form
-      setFormData({ name: '', description: '', location: '', googleMapLink: '', food: '' });
+      setFormData({ name: '', description: '', location: '', googleMapLink: '', food: '', rating: 0 });
       setImageFiles([]);
       setImagePreviews([]);
       setAgreedToTerms(false);
@@ -211,6 +212,22 @@ const RestaurantListPage = () => {
               value={formData.googleMapLink} 
               onChange={handleChange} 
             />
+
+            <div className="rating-input" style={{ margin: '15px 0', display: 'flex', alignItems: 'center', gap: '15px' }}>
+              <label style={{ color: '#f3f4f6' }}>Initial Rating:</label>
+              <div className="stars-container">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span
+                    key={star}
+                    className={`star ${star <= (formData.rating) ? 'filled' : ''} interactive`}
+                    onClick={() => setFormData({ ...formData, rating: star })}
+                    style={{ fontSize: '24px', cursor: 'pointer', color: star <= formData.rating ? '#f97316' : '#374151' }}
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
+            </div>
             
             <textarea 
               name="description" 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { AuthContext } from '../context/AuthContext';
@@ -116,12 +116,12 @@ const HomePage = () => {
         <h2 className="section-title">Top Rated Restaurants</h2>
         
         <div className="restaurant-list">
-          {initialRestaurants.map((res) => (
+          {initialRestaurants && initialRestaurants.map((res) => (
             <div key={res.id} className="restaurant-list-card">
-              <img src={res.images[0]} alt={res.name} className="card-image" />
+              <img src={res.images && res.images.length > 0 ? res.images[0] : '/placeholder-restaurant.jpg'} alt={res.name} className="card-image" />
               <div className="card-info">
                 <h3>{res.name}</h3>
-                <span className="rating">★ {res.rating} out of 5</span>
+                <span className="rating">★ {res.rating || 0} out of 5</span>
                 <div className="tags">📍 {res.location} &nbsp; | &nbsp; 🍽️ {res.food}</div>
                 <p className="description">{res.description}</p>
                 <button 
@@ -141,12 +141,11 @@ const HomePage = () => {
       <section className="contact-section" id="contact">
         <h2>Get In Touch</h2>
         <p style={{textAlign: 'center', color: '#9ca3af'}}>Have a restaurant suggestion or facing an issue? Send us a message!</p>
-        <form className="contact-form" onSubmit={(e) => { e.preventDefault(); alert("Thank you! Your message has been sent."); }}>
-          <input type="text" placeholder="Your Full Name" required />
-          <input type="email" placeholder="Your Email Address" required />
-          <textarea placeholder="How can we help you today?" required></textarea>
-          <button type="submit" className="btn-register" style={{padding: '15px', fontSize: '16px'}}>Send Message</button>
-        </form>
+        <div style={{ textAlign: 'center', marginTop: '20px' }}>
+          <Link to="/contact" className="btn-register" style={{ display: 'inline-block', padding: '15px 40px', textDecoration: 'none', fontSize: '18px' }}>
+            Go to Contact Page
+          </Link>
+        </div>
       </section>
 
       {/* Footer Component */}

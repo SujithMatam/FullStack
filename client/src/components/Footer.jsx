@@ -29,7 +29,7 @@ const Footer = () => {
           <h4>Support</h4>
           <ul>
             <li><a href="#faq">FAQ</a></li>
-            <li><a href="#contact">Contact Us</a></li>
+            <li><Link to="/contact">Contact Us</Link></li>
             <li><a href="#privacy">Privacy Policy</a></li>
             <li><a href="#terms">Terms of Service</a></li>
             <li><a href="#guidelines">Review Guidelines</a></li>
