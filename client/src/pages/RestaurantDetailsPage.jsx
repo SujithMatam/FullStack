@@ -2,8 +2,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import ReviewSection from '../components/ReviewSection';
 import { AuthContext } from '../context/AuthContext';
-import { getRestaurantById, getBlogs } from '../services/api';
+import { getRestaurantById, getRestaurantReviews, addRestaurantReview, getBlogs } from '../services/api';
 import { initialRestaurants } from '../mockData';
 import './BlogDetailsPage.css'; // Reusing styling
 
@@ -12,32 +13,18 @@ const RestaurantDetailsPage = () => {
   const { user } = useContext(AuthContext);
   
   const [restaurant, setRestaurant] = useState(null);
-  const [relatedBlogs, setRelatedBlogs] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
-        
-        // Check if it's one of the initial restaurants first
-        const staticRes = initialRestaurants.find(r => r.id === id);
-        
-        const blogsData = await getBlogs();
-        setRelatedBlogs(blogsData.filter(blog => blog.restaurant === (staticRes ? staticRes.name : '')));
-
-        if (staticRes) {
-          setRestaurant(staticRes);
-          // If it's static, we still want to filter blogs by name
-          const filtered = blogsData.filter(blog => blog.restaurant === staticRes.name);
-          setRelatedBlogs(filtered);
-        } else {
-          // If not static, fetch from API
-          const resData = await getRestaurantById(id);
-          setRestaurant(resData);
-          const filtered = blogsData.filter(blog => blog.restaurant === resData.name);
-          setRelatedBlogs(filtered);
-        }
+        const [resData, reviewsData] = await Promise.all([
+          getRestaurantById(id),
+          getRestaurantReviews(id)
+        ]);
+        setRestaurant(resData);
+        setReviews(reviewsData);
       } catch (error) {
         console.error('Failed to fetch restaurant details:', error);
       } finally {
@@ -46,6 +33,11 @@ const RestaurantDetailsPage = () => {
     };
     fetchData();
   }, [id]);
+
+  // Calculate average rating from reviews
+  const avgRating = reviews.length > 0
+    ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)
+    : restaurant?.rating || 0;
 
   if (loading) {
     return (
@@ -87,7 +79,7 @@ const RestaurantDetailsPage = () => {
                 <span className="separator">•</span>
                 <span className="blog-date">🍽️ {restaurant.food}</span>
                 <span className="separator">•</span>
-                <span className="blog-restaurant">⭐ {restaurant.rating || 0}/5</span>
+                <span className="blog-restaurant">⭐ {avgRating}/5{reviews.length > 0 ? ` (${reviews.length} review${reviews.length > 1 ? 's' : ''})` : ''}</span>
               </div>
             </div>
           </div>
@@ -130,37 +122,14 @@ const RestaurantDetailsPage = () => {
 
           <hr className="divider" />
 
-          {/* Reviews Section */}
-          <section className="reviews-section">
-            <h3>Reviews & Blogs ({relatedBlogs.length})</h3>
-            
-            <div className="add-review" style={{ textAlign: 'center', padding: '20px' }}>
-              <p>Want to write a review? Create a blog post about your experience!</p>
-              <Link to="/blogs/create" className="btn-register" style={{ display: 'inline-block', padding: '10px 20px', textDecoration: 'none', marginTop: '10px' }}>
-                Create a Blog Post
-              </Link>
-            </div>
-
-            <div className="reviews-list">
-              {relatedBlogs.length === 0 ? (
-                <p className="no-reviews">No reviews yet. Be the first to write a blog about {restaurant.name}!</p>
-              ) : (
-                relatedBlogs.map(blog => (
-                  <div key={blog._id} className="review-card">
-                    <div className="review-header">
-                      <span className="review-user">{blog.authorName}</span>
-                    </div>
-                    <span className="review-date">{new Date(blog.createdAt).toLocaleDateString()}</span>
-                    <p className="review-comment">
-                      <strong>{blog.title}</strong><br />
-                      {blog.shortDescription}
-                    </p>
-                    <Link to={`/blogs/${blog._id}`} style={{ color: '#f97316', fontSize: '14px' }}>Read Full Blog</Link>
-                  </div>
-                ))
-              )}
-            </div>
-          </section>
+          {/* Reviews Section - Add Review Only */}
+          <RestaurantReviewSection 
+            restaurantId={id} 
+            initialReviews={reviews}
+            onReviewAdded={(newReview) => {
+              setReviews(prev => [newReview, ...prev]);
+            }}
+          />
         </div>
       </main>
       
@@ -169,4 +138,115 @@ const RestaurantDetailsPage = () => {
   );
 };
 
+// A specialized review section for DB-backed restaurants that calls the restaurant review API
+const RestaurantReviewSection = ({ restaurantId, initialReviews = [], onReviewAdded }) => {
+  const { user } = useContext(AuthContext);
+  const [reviews, setReviews] = useState(initialReviews);
+  const [newReview, setNewReview] = useState({ rating: 0, comment: '' });
+  const [hoverRating, setHoverRating] = useState(0);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setReviews(initialReviews);
+  }, [initialReviews]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (newReview.rating === 0 || newReview.comment.trim() === '') {
+      setError("Please provide a rating and a comment.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError('');
+      const addedReview = await addRestaurantReview(restaurantId, newReview);
+      setReviews([addedReview, ...reviews]);
+      if (onReviewAdded) onReviewAdded(addedReview);
+      setNewReview({ rating: 0, comment: '' });
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to post review');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const renderStars = (rating, interactive = false) => (
+    <div className="stars-container">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <span
+          key={star}
+          className={`star ${star <= (interactive ? (hoverRating || newReview.rating) : rating) ? 'filled' : ''} ${interactive ? 'interactive' : ''}`}
+          onClick={() => interactive && setNewReview({ ...newReview, rating: star })}
+          onMouseEnter={() => interactive && setHoverRating(star)}
+          onMouseLeave={() => interactive && setHoverRating(0)}
+        >
+          ★
+        </span>
+      ))}
+    </div>
+  );
+
+  return (
+    <div className="review-section">
+      <h3 className="review-title">Reviews & Comments ({reviews.length})</h3>
+      
+      <div className="review-form-container">
+        <h4>Add a Review</h4>
+        
+        {!user ? (
+          <div className="auth-prompt" style={{ textAlign: 'left' }}>
+            <p>You must be logged in to post a review.</p>
+            <div className="auth-links" style={{ justifyContent: 'flex-start' }}>
+              <Link to="/login" className="btn-login-outline">Log In</Link>
+              <Link to="/register" className="btn-register-filled">Register</Link>
+            </div>
+          </div>
+        ) : (
+          <form className="review-form" onSubmit={handleSubmit}>
+            {error && <div className="error-message" style={{marginBottom: '10px'}}>{error}</div>}
+            <div className="rating-input">
+              <label>Rating:</label>
+              {renderStars(newReview.rating, true)}
+            </div>
+            <textarea
+              placeholder="Share your thoughts about this restaurant..."
+              value={newReview.comment}
+              onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
+              rows="4"
+              disabled={loading}
+            ></textarea>
+            <button type="submit" className="btn-submit-review" disabled={loading}>
+              {loading ? 'Posting...' : 'Post Review'}
+            </button>
+          </form>
+        )}
+      </div>
+
+      <div className="reviews-list">
+        {reviews.length === 0 ? (
+          <p className="no-reviews">No reviews yet. Be the first to review this restaurant!</p>
+        ) : (
+          reviews.map((review) => (
+            <div key={review._id || review.id} className="review-card">
+              <div className="review-header">
+                <span className="review-author">{review.userName}</span>
+                <span className="review-date">
+                  {review.createdAt ? new Date(review.createdAt).toLocaleDateString() : ''}
+                </span>
+              </div>
+              <div className="review-rating">
+                {renderStars(review.rating)}
+              </div>
+              <p className="review-comment">{review.comment}</p>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+};
+
 export default RestaurantDetailsPage;
+

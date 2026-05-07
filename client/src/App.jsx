@@ -8,6 +8,7 @@ import BlogDetailsPage from "./pages/BlogDetailsPage";
 import CreateBlogPage from "./pages/CreateBlogPage";
 import RestaurantListPage from "./pages/RestaurantListPage";
 import RestaurantDetailsPage from "./pages/RestaurantDetailsPage";
+import InitialRestaurantDetailsPage from "./pages/InitialRestaurantDetailsPage";
 import { AuthProvider } from "./context/AuthContext";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/blogs/create" element={<CreateBlogPage />} />
           <Route path="/blogs/:id" element={<BlogDetailsPage />} />
           <Route path="/restaurants" element={<RestaurantListPage />} />
+          <Route path="/restaurants/initial/:id" element={<InitialRestaurantDetailsPage />} />
           <Route path="/restaurants/:id" element={<RestaurantDetailsPage />} />
         </Routes>
       </BrowserRouter>

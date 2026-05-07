@@ -127,7 +127,7 @@ const HomePage = () => {
                 <button 
                   className="btn-register" 
                   style={{width: '220px', padding: '12px'}}
-                  onClick={() => navigate(`/restaurants/${res.id}`)}
+                  onClick={() => navigate(`/restaurants/initial/${res.id}`)}
                 >
                   Read Full Reviews
                 </button>

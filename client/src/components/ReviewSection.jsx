@@ -4,7 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { addReview } from '../services/api';
 import './ReviewSection.css';
 
-const ReviewSection = ({ blogId, initialReviews = [], onAddReview }) => {
+const ReviewSection = ({ blogId, initialReviews = [], isLocalOnly = false, onLocalReviewAdd, onAddReview }) => {
   const { user } = useContext(AuthContext);
   const [reviews, setReviews] = useState(initialReviews);
   const [newReview, setNewReview] = useState({ rating: 0, comment: '' });
@@ -27,13 +27,26 @@ const ReviewSection = ({ blogId, initialReviews = [], onAddReview }) => {
     try {
       setLoading(true);
       setError('');
-      
-      const addedReview = onAddReview 
-        ? await onAddReview(blogId, newReview)
-        : await addReview(blogId, newReview);
-      
-      setReviews([addedReview, ...reviews]);
-      setNewReview({ rating: 0, comment: '' });
+      if (isLocalOnly) {
+        // Local-only mode: store reviews in parent component state
+        const localReview = {
+          id: Date.now().toString(),
+          rating: newReview.rating,
+          comment: newReview.comment,
+          userName: user ? `${user.firstName} ${user.lastName}` : 'Anonymous',
+          createdAt: new Date().toISOString(),
+        };
+        setReviews([localReview, ...reviews]);
+        if (onLocalReviewAdd) onLocalReviewAdd(localReview);
+        setNewReview({ rating: 0, comment: '' });
+      } else {
+        const addedReview = onAddReview 
+          ? await onAddReview(blogId, newReview)
+          : await addReview(blogId, newReview);
+        
+        setReviews([addedReview, ...reviews]);
+        setNewReview({ rating: 0, comment: '' });
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to post review');
     } finally {
@@ -82,7 +95,7 @@ const ReviewSection = ({ blogId, initialReviews = [], onAddReview }) => {
               {renderStars(newReview.rating, true)}
             </div>
             <textarea
-              placeholder="Share your thoughts about this post or restaurant..."
+              placeholder="Share your thoughts about this restaurant..."
               value={newReview.comment}
               onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
               rows="4"
