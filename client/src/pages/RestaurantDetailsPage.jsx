@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { AuthContext } from '../context/AuthContext';
 import { getRestaurantById, getBlogs } from '../services/api';
+import { initialRestaurants } from '../mockData';
 import './BlogDetailsPage.css'; // Reusing styling
 
 const RestaurantDetailsPage = () => {
@@ -17,14 +18,26 @@ const RestaurantDetailsPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [resData, blogsData] = await Promise.all([
-          getRestaurantById(id),
-          getBlogs()
-        ]);
-        setRestaurant(resData);
-        // Filter blogs by this restaurant's name
-        const filtered = blogsData.filter(blog => blog.restaurant === resData.name);
-        setRelatedBlogs(filtered);
+        setLoading(true);
+        
+        // Check if it's one of the initial restaurants first
+        const staticRes = initialRestaurants.find(r => r.id === id);
+        
+        const blogsData = await getBlogs();
+        setRelatedBlogs(blogsData.filter(blog => blog.restaurant === (staticRes ? staticRes.name : '')));
+
+        if (staticRes) {
+          setRestaurant(staticRes);
+          // If it's static, we still want to filter blogs by name
+          const filtered = blogsData.filter(blog => blog.restaurant === staticRes.name);
+          setRelatedBlogs(filtered);
+        } else {
+          // If not static, fetch from API
+          const resData = await getRestaurantById(id);
+          setRestaurant(resData);
+          const filtered = blogsData.filter(blog => blog.restaurant === resData.name);
+          setRelatedBlogs(filtered);
+        }
       } catch (error) {
         console.error('Failed to fetch restaurant details:', error);
       } finally {

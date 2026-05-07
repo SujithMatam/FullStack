@@ -4,7 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { addReview } from '../services/api';
 import './ReviewSection.css';
 
-const ReviewSection = ({ blogId, initialReviews = [] }) => {
+const ReviewSection = ({ blogId, initialReviews = [], onAddReview }) => {
   const { user } = useContext(AuthContext);
   const [reviews, setReviews] = useState(initialReviews);
   const [newReview, setNewReview] = useState({ rating: 0, comment: '' });
@@ -28,7 +28,9 @@ const ReviewSection = ({ blogId, initialReviews = [] }) => {
       setLoading(true);
       setError('');
       
-      const addedReview = await addReview(blogId, newReview);
+      const addedReview = onAddReview 
+        ? await onAddReview(blogId, newReview)
+        : await addReview(blogId, newReview);
       
       setReviews([addedReview, ...reviews]);
       setNewReview({ rating: 0, comment: '' });
